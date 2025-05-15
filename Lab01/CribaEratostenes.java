@@ -16,27 +16,29 @@ public class CribaEratostenes {
         
         scanner.close();
     }
-    
+ 
     public static List<Integer> encontrarPrimos(int limite) {
         boolean[] esPrimo = new boolean[limite + 1];
         Arrays.fill(esPrimo, true);
-        esPrimo[0] = esPrimo[1] = false;
         
-        for (int i = 2; i * i <= limite; i++) {
-            if (esPrimo[i]) {
-                for (int j = i * i; j <= limite; j += i) {
-                    esPrimo[j] = false;
+        esPrimo[0] = false;
+        esPrimo[1] = false;
+
+        for (int numero = 2; numero * numero <= limite; numero++) {
+            if (esPrimo[numero]) {
+                for (int multiplo = numero * numero; multiplo <= limite; multiplo += numero) {
+                    esPrimo[multiplo] = false;
                 }
             }
         }
         
-        List<Integer> primos = new ArrayList<>();
-        for (int i = 2; i <= limite; i++) {
-            if (esPrimo[i]) {
-                primos.add(i);
+        List<Integer> numerosPrimos = new ArrayList<>();
+        for (int numero = 2; numero <= limite; numero++) {
+            if (esPrimo[numero]) {
+                numerosPrimos.add(numero);
             }
         }
         
-        return primos;
+        return numerosPrimos;
     }
 } 

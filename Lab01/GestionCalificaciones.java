@@ -9,13 +9,11 @@ public class GestionCalificaciones {
         
         double[] calificaciones = new double[n];
         
-        // Ingreso de calificaciones
         for (int i = 0; i < n; i++) {
             System.out.print("Ingrese la calificación del estudiante " + (i + 1) + ": ");
             calificaciones[i] = scanner.nextDouble();
         }
-        
-        // Calcular y mostrar resultados
+
         System.out.println("\nResultados:");
         System.out.println("Mediana: " + calcularMediana(calificaciones));
         System.out.println("Moda: " + calcularModa(calificaciones));
@@ -36,19 +34,23 @@ public class GestionCalificaciones {
     }
     
     public static double calcularModa(double[] arr) {
-        Map<Double, Integer> frecuencia = new HashMap<>();
+        double[] copia = arr.clone();
+        Arrays.sort(copia);
         
-        for (double num : arr) {
-            frecuencia.put(num, frecuencia.getOrDefault(num, 0) + 1);
-        }
+        double moda = copia[0];
+        int contadorActual = 1;
+        int contadorMaximo = 1;
         
-        double moda = arr[0];
-        int maxFrecuencia = 1;
-        
-        for (Map.Entry<Double, Integer> entry : frecuencia.entrySet()) {
-            if (entry.getValue() > maxFrecuencia) {
-                moda = entry.getKey();
-                maxFrecuencia = entry.getValue();
+        for (int i = 1; i < copia.length; i++) {
+            if (copia[i] == copia[i-1]) {
+                contadorActual++;
+            } else {
+                contadorActual = 1;
+            }
+            
+            if (contadorActual > contadorMaximo) {
+                contadorMaximo = contadorActual;
+                moda = copia[i];
             }
         }
         
@@ -56,13 +58,21 @@ public class GestionCalificaciones {
     }
     
     public static double calcularDesviacionEstandar(double[] arr) {
-        double media = Arrays.stream(arr).average().getAsDouble();
-        double sumaCuadrados = 0;
+        double suma = 0;
         
         for (double num : arr) {
-            sumaCuadrados += Math.pow(num - media, 2);
+            suma += num;
         }
         
-        return Math.sqrt(sumaCuadrados / arr.length);
+        double media = suma / arr.length;
+        double sumaDiferenciasCuadrado = 0;
+        
+        for (double num : arr) {
+            double diferencia = num - media;
+            sumaDiferenciasCuadrado += diferencia * diferencia;
+        }
+        
+        double varianza = sumaDiferenciasCuadrado / arr.length;
+        return Math.sqrt(varianza);//La desviación estándar es la raíz cuadrada de la varianza
     }
 } 
