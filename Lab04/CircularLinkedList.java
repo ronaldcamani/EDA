@@ -4,7 +4,6 @@ public class CircularLinkedList<T> {
     public CircularLinkedList() {
         head = null;
     }
-
     public void insert(T data) {
         Node<T> newNode = new Node<>(data);
         
@@ -20,7 +19,6 @@ public class CircularLinkedList<T> {
             newNode.next = head;
         }
     }
-
     public void printList() {
         if (head == null) {
             System.out.println("List is empty");
@@ -37,12 +35,10 @@ public class CircularLinkedList<T> {
 
     public static void main(String[] args) {
         CircularLinkedList<Integer> list = new CircularLinkedList<>();
-        
         // Insert numbers 1 to 12
         for (int i = 1; i <= 12; i++) {
             list.insert(i);
         }
-        
         System.out.println("Circular Linked List with numbers 1-12:");
         list.printList();
     }

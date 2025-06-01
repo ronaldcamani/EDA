@@ -30,12 +30,10 @@ public class DoublyLinkedList<T> {
 
     public static void main(String[] args) {
         DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
-        
         // Insert numbers 1 to 10
         for (int i = 1; i <= 10; i++) {
             list.insert(i);
         }
-        
         System.out.println("Doubly Linked List with numbers 1-10:");
         list.printList();
     }
