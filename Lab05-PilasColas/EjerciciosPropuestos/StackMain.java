@@ -2,7 +2,7 @@ package EjerciciosPropuestos;
 
 import java.util.Scanner;
 
-public class Main {
+public class StackMain {
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
     Stack<Integer> stack = new Stack<>(10); // Stack with capacity 10
