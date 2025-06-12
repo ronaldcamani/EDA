@@ -23,7 +23,7 @@ public class QueueMain {
 
       int choice = scanner.nextInt();
 
-      try {
+
         switch (choice) {
           case 1:
             if (queue.isFull()) {
@@ -76,9 +76,7 @@ public class QueueMain {
           default:
             System.out.println("Invalid choice! Please try again.");
         }
-      } catch (IllegalStateException e) {
-        System.out.println("Error: " + e.getMessage());
-      }
+
     }
     scanner.close();
   }

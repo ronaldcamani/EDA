@@ -22,56 +22,52 @@ public class StackMain {
 
       int choice = scanner.nextInt();
 
-      try {
-        switch (choice) {
-          case 1:
-            if (stack.isFull()) {
-              System.out.println("Stack is full!");
-            } else {
-              System.out.print("Enter element to push: ");
-              int element = scanner.nextInt();
-              stack.push(element);
-              System.out.println("Element pushed successfully!");
-            }
-            break;
+      switch (choice) {
+        case 1:
+          if (stack.isFull()) {
+            System.out.println("Stack is full!");
+          } else {
+            System.out.print("Enter element to push: ");
+            int element = scanner.nextInt();
+            stack.push(element);
+            System.out.println("Element pushed successfully!");
+          }
+          break;
 
-          case 2:
-            int popped = stack.pop();
-            System.out.println("Popped element: " + popped);
-            break;
+        case 2:
+          int popped = stack.pop();
+          System.out.println("Popped element: " + popped);
+          break;
 
-          case 3:
-            int top = stack.top();
-            System.out.println("Top element: " + top);
-            break;
+        case 3:
+          int top = stack.top();
+          System.out.println("Top element: " + top);
+          break;
 
-          case 4:
-            System.out.println("Stack is " + (stack.isEmpty() ? "empty" : "not empty"));
-            break;
+        case 4:
+          System.out.println("Stack is " + (stack.isEmpty() ? "empty" : "not empty"));
+          break;
 
-          case 5:
-            System.out.println("Stack is " + (stack.isFull() ? "full" : "not full"));
-            break;
+        case 5:
+          System.out.println("Stack is " + (stack.isFull() ? "full" : "not full"));
+          break;
 
-          case 6:
-            stack.printStack();
-            break;
+        case 6:
+          stack.printStack();
+          break;
 
-          case 7:
-            stack.destroyStack();
-            System.out.println("Stack destroyed!");
-            break;
+        case 7:
+          stack.destroyStack();
+          System.out.println("Stack destroyed!");
+          break;
 
-          case 8:
-            running = false;
-            System.out.println("Exiting program...");
-            break;
+        case 8:
+          running = false;
+          System.out.println("Exiting program...");
+          break;
 
-          default:
-            System.out.println("Invalid choice! Please try again.");
-        }
-      } catch (IllegalStateException e) {
-        System.out.println("Error: " + e.getMessage());
+        default:
+          System.out.println("Invalid choice! Please try again.");
       }
     }
     scanner.close();
