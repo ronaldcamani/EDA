@@ -219,4 +219,19 @@ public class BST<T extends Comparable<T>> {
   public Node<T> getRoot() {
     return root;
   }
+
+  // Métodos de visualización
+  public void visualizeTree() {
+    BSTVisualizer<T> visualizer = new BSTVisualizer<>(this);
+    visualizer.visualize();
+  }
+
+  public void visualizeTreeWithInfo() {
+    System.out.println("\nInformación del árbol:");
+    System.out.println("Recorrido InOrder:");
+    inOrder();
+    System.out.println("Valor mínimo: " + min());
+    System.out.println("Valor máximo: " + max());
+    visualizeTree();
+  }
 }

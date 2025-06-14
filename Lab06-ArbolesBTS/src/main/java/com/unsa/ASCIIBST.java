@@ -7,8 +7,6 @@ public class ASCIIBST {
     Scanner scanner = new Scanner(System.in);
 
     System.out.println("=== ÁRBOL BINARIO DE BÚSQUEDA CON VALORES ASCII ===");
-    System.out.println();
-
     // Solicitar palabra al usuario
     System.out.print("Ingrese una palabra: ");
     String palabra = scanner.nextLine();
