@@ -1,7 +1,0 @@
-# Archivos ignorados para el proyecto Lab06-ArbolesBTS
-*.class
-
-# Ignore Eclipse settings and project files
-.settings/
-.classpath
-.project
