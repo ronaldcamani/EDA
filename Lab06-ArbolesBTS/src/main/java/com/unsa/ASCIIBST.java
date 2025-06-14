@@ -1,6 +1,8 @@
+package com.unsa;
+
 import java.util.Scanner;
 
-public class ASCIIBSTDemo {
+public class ASCIIBST {
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
 

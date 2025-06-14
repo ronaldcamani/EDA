@@ -1,3 +1,5 @@
+package com.unsa;
+
 public class BST<T extends Comparable<T>> {
   private Node<T> root;
 
@@ -211,5 +213,10 @@ public class BST<T extends Comparable<T>> {
       postOrderRec(root.getRight());
       System.out.print(root.getData() + " ");
     }
+  }
+
+  // Método para obtener la raíz (usado por el visualizador)
+  public Node<T> getRoot() {
+    return root;
   }
 }
