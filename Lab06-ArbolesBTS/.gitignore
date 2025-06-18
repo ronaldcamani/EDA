@@ -1,2 +1,10 @@
+# direectories
 target/*
+
+
+# files configured by Eclipse
 pom.xml
+.settings/*
+.classpath
+.project
+
