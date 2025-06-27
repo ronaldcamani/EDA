@@ -5,8 +5,8 @@ public class TestBTSGraphic {
       BST<Integer> bst = new BST<>();
       
       // Insertar algunos valores
-      int[] values = {50, 30, 70, 20, 40, 60, 80, 10, 25, 35, 65};
-      
+      //int[] values = {50, 30, 70, 20, 40, 60, 80, 10, 25, 35, 65};
+      int [] values = {2,1,4,5,9,3,6,7};
       System.out.println("Insertando valores: ");
       for (int value : values) {
           System.out.print(value + " ");
@@ -33,9 +33,9 @@ public class TestBTSGraphic {
       System.out.println("Sucesor de 50: " + bst.successor(50));
       
       // Eliminar un nodo y visualizar nuevamente
-      System.out.println("\nEliminando el nodo 30...");
-      bst.remove(30);
-      bst.visualizeTree();
+    //   System.out.println("\nEliminando el nodo 30...");
+       bst.remove(4);
+       bst.visualizeTree();
       
   }
 }
