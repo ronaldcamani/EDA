@@ -11,8 +11,6 @@ public class BNode<E extends Comparable<E>> {
         this.count = 0;
         for (int i = 0; i < n; i++) {
             this.keys.add(null);
-        }
-        for (int i = 0; i < n + 1; i++) {
             this.childs.add(null);
         }
     }
