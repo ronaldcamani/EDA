@@ -105,7 +105,6 @@ public class Ejercicio4 {
         
         private void drawArrow(Graphics2D g2d, int x1, int y1, int x2, int y2) {
             int arrowLength = 8;
-            int arrowWidth = 4;
             
             double dx = x2 - x1;
             double dy = y2 - y1;
