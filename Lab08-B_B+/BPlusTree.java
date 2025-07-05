@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class BPlusTree<E extends Comparable<E>> {
     private BPlusNode<E> root;
     private int orden;
@@ -23,7 +21,8 @@ public class BPlusTree<E extends Comparable<E>> {
             root.keys.set(0, x);
             root.count = 1;
         } else {
-            BPlusNode<E>[] newChildRef = new BPlusNode[1];
+            @SuppressWarnings("unchecked")
+            BPlusNode<E>[] newChildRef = (BPlusNode<E>[]) new BPlusNode[1];
             E newKey = insertHelper(root, x, newChildRef);
             if (newKey != null) {
                 BPlusNode<E> newRoot = new BPlusNode<>(orden, false);
@@ -60,7 +59,8 @@ public class BPlusTree<E extends Comparable<E>> {
                 return splitLeaf(node, newChildRef);
             }
         } else {
-            BPlusNode<E>[] childPtr = new BPlusNode[1];
+            @SuppressWarnings("unchecked")
+            BPlusNode<E>[] childPtr = (BPlusNode<E>[]) new BPlusNode[1];
             E promotedKey = insertHelper(node.childs.get(pos[0]), x, childPtr);
             if (promotedKey == null) return null;
             
@@ -132,30 +132,97 @@ public class BPlusTree<E extends Comparable<E>> {
     public void remove(E x) {
         if (root == null) return;
         
-        remove(root, x);
+        removeHelper(root, x);
         
-        if (root.count == 0 && !root.isLeaf) {
+        // Si el root no es hoja y no tiene claves, actualizar root
+        if (root.count == 0 && !root.isLeaf && root.childs.get(0) != null) {
             root = root.childs.get(0);
+        }
+        
+        // Si el árbol quedó completamente vacío
+        if (root != null && root.count == 0 && root.isLeaf) {
+            root = null;
         }
     }
     
-    private void remove(BPlusNode<E> node, E x) {
-        if (node == null) return;
+    private boolean removeHelper(BPlusNode<E> node, E x) {
+        if (node == null) return false;
         
         int[] pos = new int[1];
         boolean found = node.searchNode(x, pos);
         
         if (node.isLeaf) {
             if (found) {
+                // Eliminar de la hoja
                 for (int i = pos[0]; i < node.count - 1; i++) {
                     node.keys.set(i, node.keys.get(i + 1));
                 }
                 node.keys.set(node.count - 1, null);
                 node.count--;
+                return true;
             }
+            return false;
         } else {
-            remove(node.childs.get(pos[0]), x);
+            // Para nodos internos, buscar en el hijo apropiado
+            boolean removed = removeHelper(node.childs.get(pos[0]), x);
+            
+            if (removed) {
+                // Si se eliminó un elemento, verificar si necesitamos actualizar claves internas
+                // En B+ Trees, las claves internas son guías, no datos reales
+                // Solo actualizamos si la clave eliminada era una clave guía
+                if (found && pos[0] < node.count) {
+                    // Buscar el nuevo valor mínimo en el subárbol derecho
+                    BPlusNode<E> rightChild = node.childs.get(pos[0] + 1);
+                    if (rightChild != null) {
+                        E newKey = findMinInSubtree(rightChild);
+                        if (newKey != null) {
+                            node.keys.set(pos[0], newKey);
+                        }
+                    }
+                }
+                
+                // Verificar si algún hijo necesita rebalanceo
+                BPlusNode<E> child = node.childs.get(pos[0]);
+                if (child != null && child.count == 0) {
+                    // El hijo está vacío, removerlo
+                    for (int i = pos[0]; i < node.count; i++) {
+                        if (i + 1 < node.childs.size()) {
+                            node.childs.set(i, node.childs.get(i + 1));
+                        }
+                    }
+                    if (node.count < node.childs.size()) {
+                        node.childs.set(node.count, null);
+                    }
+                    
+                    // También remover la clave correspondiente si existe
+                    if (pos[0] < node.count) {
+                        for (int i = pos[0]; i < node.count - 1; i++) {
+                            node.keys.set(i, node.keys.get(i + 1));
+                        }
+                        node.keys.set(node.count - 1, null);
+                        node.count--;
+                    }
+                }
+            }
+            
+            return removed;
         }
+    }
+    
+    private E findMinInSubtree(BPlusNode<E> node) {
+        if (node == null) return null;
+        
+        // Ir al nodo hoja más a la izquierda
+        while (!node.isLeaf && node.childs.get(0) != null) {
+            node = node.childs.get(0);
+        }
+        
+        // Retornar la primera clave no nula
+        if (node.count > 0) {
+            return node.keys.get(0);
+        }
+        
+        return null;
     }
     
     public boolean search(E x) {
