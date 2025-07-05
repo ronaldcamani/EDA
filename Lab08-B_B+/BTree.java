@@ -13,6 +13,10 @@ public class BTree<E extends Comparable<E>> {
         return this.root == null;
     }
     
+    public BNode<E> getRoot() {
+        return this.root;
+    }
+    
     public void insert(E cl) {
         up = false;
         E mediana;
@@ -184,14 +188,15 @@ public class BTree<E extends Comparable<E>> {
                 node.keys.set(node.count - 1, null);
                 node.count--;
             } else {
-                BNode<E> predNode = node.childs.get(pos[0]);
-                while (predNode.childs.get(predNode.count) != null) {
-                    predNode = predNode.childs.get(predNode.count);
+                // Buscar el sucesor (menor del hijo derecho)
+                BNode<E> succNode = node.childs.get(pos[0] + 1);
+                while (succNode.childs.get(0) != null) {
+                    succNode = succNode.childs.get(0);
                 }
-                if (predNode.count > 0) {
-                    E pred = predNode.keys.get(predNode.count - 1);
-                    node.keys.set(pos[0], pred);
-                    remove(node.childs.get(pos[0]), pred);
+                if (succNode.count > 0) {
+                    E succ = succNode.keys.get(0);
+                    node.keys.set(pos[0], succ);
+                    remove(node.childs.get(pos[0] + 1), succ);
                 } else {
                     // Handle empty node case
                     for (int i = pos[0]; i < node.count - 1; i++) {
