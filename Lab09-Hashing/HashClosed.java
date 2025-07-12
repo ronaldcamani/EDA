@@ -25,19 +25,27 @@ public class HashClosed<E> {
 
     int index = hash(key);
     int originalIndex = index;
+    int probingSteps = 0;
+
+    System.out.println("Insertando clave " + key + " - Hash inicial: " + index);
 
     do {
+      System.out.println("  Paso " + probingSteps + ": Verificando posición " + index);
+      
       if (table[index].isAvailable()) {
         table[index].setData(new Register<E>(key, value));
         size++;
-        System.out.println("Elemento agregado: " + key + " en posición " + index);
+        System.out.println("  ✓ Elemento agregado: " + key + " en posición " + index + " (después de " + probingSteps + " pasos)");
         return true;
       } else if (!table[index].isEmpty() && table[index].getData().getKey() == key) {
-        System.out.println("Error: Clave " + key + " ya existe en la tabla");
+        System.out.println("  ✗ Error: Clave " + key + " ya existe en la tabla");
         return false;
+      } else {
+        System.out.println("  → Colisión detectada, sondeo a siguiente posición");
       }
 
       index = (index + 1) % capacity;
+      probingSteps++;
     } while (index != originalIndex);
 
     System.out.println("Error: No se pudo insertar la clave " + key);
@@ -47,39 +55,60 @@ public class HashClosed<E> {
   public Register<E> search(int key) {
     int index = hash(key);
     int originalIndex = index;
+    int probingSteps = 0;
+
+    System.out.println("Buscando clave " + key + " - Hash inicial: " + index);
 
     do {
+      System.out.println("  Paso " + probingSteps + ": Verificando posición " + index);
+      
       if (table[index].isEmpty()) {
+        System.out.println("  ✗ Posición vacía encontrada - clave no existe");
         return null;
       }
       if (!table[index].isDeleted() && table[index].getData().getKey() == key) {
+        System.out.println("  ✓ Clave encontrada en posición " + index + " (después de " + probingSteps + " pasos)");
         return table[index].getData();
+      } else {
+        System.out.println("  → Clave diferente o eliminada, continuando sondeo");
       }
+      
       index = (index + 1) % capacity;
+      probingSteps++;
     } while (index != originalIndex);
 
+    System.out.println("  ✗ Búsqueda completada - clave no encontrada");
     return null;
   }
 
   public boolean delete(int key) {
     int index = hash(key);
     int originalIndex = index;
+    int probingSteps = 0;
+
+    System.out.println("Eliminando clave " + key + " - Hash inicial: " + index);
 
     do {
+      System.out.println("  Paso " + probingSteps + ": Verificando posición " + index);
+      
       if (table[index].isEmpty()) {
-        System.out.println("Elemento " + key + " no encontrado");
+        System.out.println("  ✗ Posición vacía encontrada - elemento no existe");
         return false;
       }
       if (!table[index].isDeleted() && table[index].getData().getKey() == key) {
         table[index].setDeleted(true);
         size--;
-        System.out.println("Elemento " + key + " eliminado de posición " + index);
+        System.out.println("  ✓ Elemento " + key + " eliminado de posición " + index + " (después de " + probingSteps + " pasos)");
         return true;
+      } else {
+        System.out.println("  → Clave diferente o ya eliminada, continuando sondeo");
       }
+      
       index = (index + 1) % capacity;
+      probingSteps++;
     } while (index != originalIndex);
 
-    System.out.println("Elemento " + key + " no encontrado");
+    System.out.println("  ✗ Eliminación completada - elemento no encontrado");
     return false;
   }
 
