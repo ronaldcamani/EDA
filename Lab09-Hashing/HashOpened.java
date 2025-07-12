@@ -2,9 +2,11 @@ import java.util.LinkedList;
 
 public class HashOpened<E> {
   private LinkedList<RegisterOpen<E>>[] table;
+  private int capacity;
 
   @SuppressWarnings("unchecked")
   public HashOpened(int capacity) {
+    this.capacity = capacity;
     table = new LinkedList[capacity];
     for (int i = 0; i < capacity; i++) {
       table[i] = new LinkedList<>();
@@ -90,5 +92,43 @@ public class HashOpened<E> {
       }
     }
     System.out.println("--------------------------------------------\n");
+  }
+
+  public int getCapacity() {
+    return capacity;
+  }
+
+  public int[] getStatistics() {
+    int elementosActivos = 0;
+    int elementosEliminados = 0;
+    int posicionesOcupadas = 0;
+    int cadenaMaxima = 0;
+    int sumaLongitudes = 0;
+
+    for (int i = 0; i < table.length; i++) {
+      if (!table[i].isEmpty()) {
+        posicionesOcupadas++;
+        int longitudCadena = 0;
+        
+        for (RegisterOpen<E> r : table[i]) {
+          longitudCadena++;
+          if (r.isDeleted()) {
+            elementosEliminados++;
+          } else {
+            elementosActivos++;
+          }
+        }
+        
+        if (longitudCadena > cadenaMaxima) {
+          cadenaMaxima = longitudCadena;
+        }
+        sumaLongitudes += longitudCadena;
+      }
+    }
+
+    int promedioLongitud = (posicionesOcupadas > 0) ? 
+        (int)((double)sumaLongitudes / posicionesOcupadas * 100) : 0;
+
+    return new int[]{elementosActivos, elementosEliminados, posicionesOcupadas, cadenaMaxima, promedioLongitud};
   }
 }
