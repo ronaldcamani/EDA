@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog - Estructura de Datos y Algoritmos</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        text-align: center;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        color: #2c3e50;
+        margin-bottom: 10px;
+        font-size: 2.5em;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .author-info {
+        background: rgba(52, 73, 94, 0.1);
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 20px;
+      }
+
+      .author-info h3 {
+        color: #2c3e50;
+        margin-bottom: 10px;
+      }
+
+      .nav-menu {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin: 30px 0;
+      }
+
+      .nav-btn {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .nav-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .nav-btn.active {
+        background: linear-gradient(45deg, #e74c3c, #c0392b);
+      }
+
+      .post {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        display: none;
+        animation: fadeIn 0.5s ease-in;
+      }
+
+      .post.active {
+        display: block;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .post h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-size: 2em;
+        border-bottom: 3px solid #667eea;
+        padding-bottom: 10px;
+      }
+
+      .post h3 {
+        color: #34495e;
+        margin: 25px 0 15px 0;
+        font-size: 1.3em;
+      }
+
+      .post p {
+        margin-bottom: 15px;
+        text-align: justify;
+        font-size: 1.1em;
+      }
+
+      .code-block {
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+        font-family: "Courier New", monospace;
+        overflow-x: auto;
+        position: relative;
+      }
+
+      .code-block::before {
+        content: "💻 Código";
+        position: absolute;
+        top: -10px;
+        left: 20px;
+        background: #e74c3c;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      .highlight {
+        background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+        padding: 15px;
+        border-radius: 10px;
+        margin: 20px 0;
+        border-left: 5px solid #667eea;
+      }
+
+      .image-placeholder {
+        background: linear-gradient(45deg, #f39c12, #e67e22);
+        color: white;
+        padding: 40px;
+        text-align: center;
+        border-radius: 10px;
+        margin: 20px 0;
+        font-size: 1.2em;
+      }
+
+      ul,
+      ol {
+        margin: 15px 0 15px 30px;
+      }
+
+      li {
+        margin-bottom: 8px;
+      }
+
+      .footer {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        margin-top: 30px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 10px;
+        }
+
+        h1 {
+          font-size: 2em;
+        }
+
+        .nav-menu {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .nav-btn {
+          width: 200px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>📚 Blog de Estructura de Datos y Algoritmos</h1>
+        <p>
+          Explorando los fundamentos de la programación y ciencias de la
+          computación
+        </p>
+
+        <div class="author-info">
+          <h3>👤 Información del Autor</h3>
+          <p><strong>Apellidos:</strong> Camani Chambi</p>
+          <p><strong>Nombres:</strong> Ronald Rodrigo</p>
+          <p><strong>URL del Blog:</strong> <span id="current-url"></span></p>
+        </div>
+      </header>
+
+      <nav class="nav-menu">
+        <button class="nav-btn active" onclick="showPost('recurrencia')">
+          🌳 Recurrencia y Árboles
+        </button>
+        <button class="nav-btn" onclick="showPost('fundamentos')">
+          ⚡ Fundamentos de Programación
+        </button>
+        <button class="nav-btn" onclick="showPost('arreglos')">
+          📊 Arreglos
+        </button>
+        <button class="nav-btn" onclick="showPost('poo')">
+          🏗️ Programación Orientada a Objetos
+        </button>
+        <button class="nav-btn" onclick="showPost('microeconomia')">
+          💰 Microeconomía
+        </button>
+      </nav>
+
+      <!-- Post 1: Recurrencia y Árboles -->
+      <article class="post active" id="recurrencia">
+        <h2>🌳 Recurrencia y Árboles</h2>
+
+        <h3>¿Qué es la Recurrencia?</h3>
+        <p>
+          La recurrencia es una técnica de programación donde una función se
+          llama a sí misma para resolver un problema más pequeño del mismo tipo.
+          Es fundamental para trabajar con estructuras de datos como árboles.
+        </p>
+
+        <div class="highlight">
+          <strong>🎯 Elementos clave de la recursión:</strong>
+          <ul>
+            <li>Caso base: condición que detiene la recursión</li>
+            <li>Caso recursivo: la función se llama a sí misma</li>
+            <li>Progreso hacia el caso base</li>
+          </ul>
+        </div>
+
+        <h3>Ejemplo: Factorial Recursivo</h3>
+        <div class="code-block">
+          function factorial(n) { // Caso base if (n <= 1) { return 1; } // Caso
+          recursivo return n * factorial(n - 1); } console.log(factorial(5)); //
+          Output: 120
+        </div>
+
+        <h3>Árboles: Estructura de Datos Jerárquica</h3>
+        <p>
+          Los árboles son estructuras de datos no lineales que representan una
+          jerarquía. Cada nodo puede tener múltiples hijos, pero solo un padre.
+        </p>
+
+        <div class="image-placeholder">
+          🎄 Representación visual de un árbol binario
+          <br />
+          A / \ B C / \ \ D E F
+        </div>
+
+        <h3>Recorrido de Árboles</h3>
+        <div class="code-block">
+          class TreeNode { constructor(value) { this.value = value; this.left =
+          null; this.right = null; } } // Recorrido inorden (izquierda, raíz,
+          derecha) function inorderTraversal(root) { if (root === null) return;
+          inorderTraversal(root.left); console.log(root.value);
+          inorderTraversal(root.right); }
+        </div>
+      </article>
+
+      <!-- Post 2: Fundamentos de Programación -->
+      <article class="post" id="fundamentos">
+        <h2>⚡ Fundamentos de Programación</h2>
+
+        <h3>Conceptos Básicos</h3>
+        <p>
+          Los fundamentos de programación son los pilares sobre los que se
+          construye todo el conocimiento en ciencias de la computación. Incluyen
+          variables, tipos de datos, estructuras de control y algoritmos
+          básicos.
+        </p>
+
+        <div class="highlight">
+          <strong>🔧 Elementos fundamentales:</strong>
+          <ul>
+            <li>Variables y tipos de datos</li>
+            <li>Operadores y expresiones</li>
+            <li>Estructuras de control (if, while, for)</li>
+            <li>Funciones y procedimientos</li>
+          </ul>
+        </div>
+
+        <h3>Variables y Tipos de Datos</h3>
+        <div class="code-block">
+          // Tipos de datos primitivos en JavaScript let numero = 42; // Number
+          let texto = "Hola mundo"; // String let booleano = true; // Boolean
+          let indefinido; // Undefined let nulo = null; // Null // Tipos de
+          datos complejos let arreglo = [1, 2, 3, 4, 5]; let objeto = { nombre:
+          "Juan", edad: 25, activo: true };
+        </div>
+
+        <h3>Estructuras de Control</h3>
+        <p>
+          Las estructuras de control permiten dirigir el flujo de ejecución del
+          programa según diferentes condiciones.
+        </p>
+
+        <div class="code-block">
+          // Estructura condicional function evaluarNota(nota) { if (nota >= 90)
+          { return "Excelente"; } else if (nota >= 80) { return "Bueno"; } else
+          if (nota >= 70) { return "Regular"; } else { return "Necesita
+          mejorar"; } } // Estructura repetitiva for (let i = 1; i <= 10; i++) {
+          console.log(`Número: ${i}`); }
+        </div>
+
+        <div class="image-placeholder">
+          📊 Diagrama de flujo de estructuras de control
+        </div>
+
+        <h3>Algoritmos Básicos</h3>
+        <p>
+          Un algoritmo es una secuencia de pasos bien definidos para resolver un
+          problema. La eficiencia y correctitud son características
+          fundamentales.
+        </p>
+      </article>
+
+      <!-- Post 3: Arreglos -->
+      <article class="post" id="arreglos">
+        <h2>📊 Arreglos</h2>
+
+        <h3>¿Qué son los Arreglos?</h3>
+        <p>
+          Los arreglos son estructuras de datos que almacenan múltiples
+          elementos del mismo tipo en posiciones contiguas de memoria. Cada
+          elemento se accede mediante un índice.
+        </p>
+
+        <div class="highlight">
+          <strong>🎯 Características de los arreglos:</strong>
+          <ul>
+            <li>Tamaño fijo (en algunos lenguajes)</li>
+            <li>Acceso directo por índice O(1)</li>
+            <li>Elementos del mismo tipo</li>
+            <li>Memoria contigua</li>
+          </ul>
+        </div>
+
+        <h3>Operaciones Básicas</h3>
+        <div class="code-block">
+          // Declaración e inicialización let numeros = [10, 20, 30, 40, 50];
+          let nombres = ["Ana", "Bob", "Carlos"]; // Acceso a elementos
+          console.log(numeros[0]); // 10 console.log(nombres[2]); // "Carlos" //
+          Modificación numeros[1] = 25; console.log(numeros); // [10, 25, 30,
+          40, 50] // Longitud del arreglo console.log(numeros.length); // 5
+        </div>
+
+        <h3>Métodos Importantes de Arreglos</h3>
+        <div class="code-block">
+          let frutas = ["manzana", "banana", "naranja"]; // Agregar elementos
+          frutas.push("uva"); // Al final frutas.unshift("pera"); // Al inicio
+          // Eliminar elementos frutas.pop(); // Del final frutas.shift(); //
+          Del inicio // Búsqueda let indice = frutas.indexOf("banana"); let
+          existe = frutas.includes("manzana"); // Iteración
+          frutas.forEach((fruta, index) => { console.log(`${index}: ${fruta}`);
+          });
+        </div>
+
+        <div class="image-placeholder">
+          📈 Representación visual de un arreglo en memoria [0][1][2][3][4] ←
+          índices [A][B][C][D][E] ← elementos
+        </div>
+
+        <h3>Algoritmos con Arreglos</h3>
+        <p>
+          Los arreglos son fundamentales para implementar algoritmos de
+          ordenamiento y búsqueda.
+        </p>
+
+        <div class="code-block">
+          // Búsqueda lineal function busquedaLineal(arr, elemento) { for (let i
+          = 0; i < arr.length; i++) { if (arr[i] === elemento) { return i; } }
+          return -1; } // Ordenamiento burbuja function ordenamientoBurbuja(arr)
+          { let n = arr.length; for (let i = 0; i < n - 1; i++) { for (let j =
+          0; j < n - i - 1; j++) { if (arr[j] > arr[j + 1]) { // Intercambio let
+          temp = arr[j]; arr[j] = arr[j + 1]; arr[j + 1] = temp; } } } return
+          arr; }
+        </div>
+      </article>
+
+      <!-- Post 4: Programación Orientada a Objetos -->
+      <article class="post" id="poo">
+        <h2>🏗️ Programación Orientada a Objetos</h2>
+
+        <h3>Conceptos Fundamentales</h3>
+        <p>
+          La Programación Orientada a Objetos (POO) es un paradigma de
+          programación que organiza el código en objetos que contienen datos
+          (atributos) y código (métodos) que manipula esos datos.
+        </p>
+
+        <div class="highlight">
+          <strong>🏛️ Pilares de la POO:</strong>
+          <ul>
+            <li><strong>Encapsulación:</strong> Ocultar detalles internos</li>
+            <li>
+              <strong>Herencia:</strong> Reutilizar código de clases padre
+            </li>
+            <li>
+              <strong>Polimorfismo:</strong> Múltiples formas de un método
+            </li>
+            <li><strong>Abstracción:</strong> Simplificar complejidad</li>
+          </ul>
+        </div>
+
+        <h3>Clases y Objetos</h3>
+        <div class="code-block">
+          class Persona { // Constructor constructor(nombre, edad, email) {
+          this.nombre = nombre; this.edad = edad; this.email = email; } //
+          Métodos saludar() { return `Hola, soy ${this.nombre}`; }
+          cumplirAnios() { this.edad++; console.log(`Ahora tengo ${this.edad}
+          años`); } // Método estático static especie() { return "Homo sapiens";
+          } } // Crear objetos let persona1 = new Persona("Ana", 25,
+          "ana@email.com"); let persona2 = new Persona("Bob", 30,
+          "bob@email.com"); console.log(persona1.saludar());
+          persona1.cumplirAnios();
+        </div>
+
+        <h3>Herencia</h3>
+        <div class="code-block">
+          class Estudiante extends Persona { constructor(nombre, edad, email,
+          carrera) { super(nombre, edad, email); // Llamar al constructor padre
+          this.carrera = carrera; this.notas = []; } agregarNota(nota) {
+          this.notas.push(nota); } calcularPromedio() { if (this.notas.length
+          === 0) return 0; let suma = this.notas.reduce((acc, nota) => acc +
+          nota, 0); return suma / this.notas.length; } // Sobrescribir método
+          padre saludar() { return `${super.saludar()}, estudio
+          ${this.carrera}`; } } let estudiante = new Estudiante("Carlos", 20,
+          "carlos@email.com", "Informática"); estudiante.agregarNota(85);
+          estudiante.agregarNota(92); console.log(estudiante.saludar());
+          console.log(`Promedio: ${estudiante.calcularPromedio()}`);
+        </div>
+
+        <div class="image-placeholder">
+          🏗️ Diagrama UML de clases Persona (clase padre) ← Estudiante (clase
+          hija)
+        </div>
+
+        <h3>Encapsulación</h3>
+        <p>
+          La encapsulación permite controlar el acceso a los datos de un objeto
+          mediante métodos públicos, privados y protegidos.
+        </p>
+
+        <div class="code-block">
+          class CuentaBancaria { #saldo; // Atributo privado
+          constructor(titular, saldoInicial = 0) { this.titular = titular;
+          this.#saldo = saldoInicial; } // Getter get saldo() { return
+          this.#saldo; } // Métodos públicos depositar(cantidad) { if (cantidad
+          > 0) { this.#saldo += cantidad; return true; } return false; }
+          retirar(cantidad) { if (cantidad > 0 && cantidad <= this.#saldo) {
+          this.#saldo -= cantidad; return true; } return false; } }
+        </div>
+      </article>
+
+      <!-- Post 5: Microeconomía -->
+      <article class="post" id="microeconomia">
+        <h2>💰 Microeconomía</h2>
+
+        <h3>Introducción a la Microeconomía</h3>
+        <p>
+          La microeconomía es la rama de la economía que estudia el
+          comportamiento de los agentes económicos individuales: consumidores,
+          empresas y mercados específicos. Se enfoca en la toma de decisiones y
+          la asignación de recursos escasos.
+        </p>
+
+        <div class="highlight">
+          <strong>📈 Conceptos clave:</strong>
+          <ul>
+            <li>
+              <strong>Demanda:</strong> Cantidad de bienes que los consumidores
+              desean comprar
+            </li>
+            <li>
+              <strong>Oferta:</strong> Cantidad de bienes que los productores
+              están dispuestos a vender
+            </li>
+            <li>
+              <strong>Precio de equilibrio:</strong> Punto donde se cruzan
+              oferta y demanda
+            </li>
+            <li>
+              <strong>Elasticidad:</strong> Sensibilidad de una variable ante
+              cambios en otra
+            </li>
+          </ul>
+        </div>
+
+        <h3>Ley de la Demanda</h3>
+        <p>
+          La ley de la demanda establece que, manteniendo todo lo demás
+          constante (ceteris paribus), cuando el precio de un bien aumenta, la
+          cantidad demandada disminuye, y viceversa.
+        </p>
+
+        <div class="code-block">
+          // Función de demanda simple function funcionDemanda(precio,
+          ingresoConsumidor = 1000, precioSustituto = 10) { // Parámetros: a =
+          intercepto, b = pendiente (negativa) const a = 100; const b = -2;
+          const c = 0.05; // efecto del ingreso const d = 1.5; // efecto del
+          precio del sustituto const cantidadDemandada = a + (b * precio) + (c *
+          ingresoConsumidor) + (d * precioSustituto); return Math.max(0,
+          cantidadDemandada); // No puede ser negativa } // Ejemplo: calcular
+          demanda para diferentes precios console.log("Precio | Cantidad
+          Demandada"); for (let precio = 5; precio <= 25; precio += 5) { let
+          demanda = funcionDemanda(precio); console.log(`$${precio} |
+          ${demanda.toFixed(1)} unidades`); }
+        </div>
+
+        <h3>Ley de la Oferta</h3>
+        <p>
+          La ley de la oferta indica que, ceteris paribus, cuando el precio de
+          un bien aumenta, la cantidad ofrecida también aumenta.
+        </p>
+
+        <div class="image-placeholder">
+          📊 Gráfico de Oferta y Demanda Precio ↑ | / | / Oferta | / | / |/ \ |
+          \ Demanda |____\________→ Cantidad Equilibrio
+        </div>
+
+        <h3>Elasticidad Precio de la Demanda</h3>
+        <div class="code-block">
+          // Cálculo de elasticidad precio de la demanda function
+          calcularElasticidad(precio1, cantidad1, precio2, cantidad2) { const
+          cambioPorc_cantidad = ((cantidad2 - cantidad1) / cantidad1) * 100;
+          const cambioPorc_precio = ((precio2 - precio1) / precio1) * 100; const
+          elasticidad = cambioPorc_cantidad / cambioPorc_precio; let tipo; if
+          (Math.abs(elasticidad) > 1) { tipo = "Elástica"; } else if
+          (Math.abs(elasticidad) < 1) { tipo = "Inelástica"; } else { tipo =
+          "Unitaria"; } return { valor: elasticidad.toFixed(2), tipo: tipo }; }
+          // Ejemplo let resultado = calcularElasticidad(10, 100, 12, 80);
+          console.log(`Elasticidad: ${resultado.valor} (${resultado.tipo})`);
+        </div>
+
+        <h3>Costos de Producción</h3>
+        <p>
+          Los costos son fundamentales para las decisiones empresariales. Se
+          clasifican en costos fijos (no varían con la producción) y costos
+          variables (varían con la cantidad producida).
+        </p>
+
+        <div class="code-block">
+          class EmpresaProduccion { constructor(costoFijo,
+          costoVariableUnitario) { this.costoFijo = costoFijo;
+          this.costoVariableUnitario = costoVariableUnitario; }
+          costoTotal(cantidad) { return this.costoFijo +
+          (this.costoVariableUnitario * cantidad); } costoMedio(cantidad) {
+          return this.costoTotal(cantidad) / cantidad; } costoMarginal() {
+          return this.costoVariableUnitario; // En caso lineal }
+          puntoEquilibrio(precioVenta) { // Punto donde Ingresos = Costos return
+          this.costoFijo / (precioVenta - this.costoVariableUnitario); } } //
+          Ejemplo de uso let empresa = new EmpresaProduccion(1000, 5); // $1000
+          fijo, $5 por unidad console.log(`Costo total para 100 unidades:
+          $${empresa.costoTotal(100)}`); console.log(`Punto de equilibrio a
+          $15/unidad: ${empresa.puntoEquilibrio(15)} unidades`);
+        </div>
+      </article>
+
+      <footer class="footer">
+        <p>© 2025 - Blog de Estructura de Datos y Algoritmos</p>
+        <p>Desarrollado para el curso académico</p>
+      </footer>
+    </div>
+
+    <script>
+      function showPost(postId) {
+        // Ocultar todos los posts
+        const posts = document.querySelectorAll(".post");
+        posts.forEach((post) => post.classList.remove("active"));
+
+        // Mostrar el post seleccionado
+        document.getElementById(postId).classList.add("active");
+
+        // Actualizar botones de navegación
+        const buttons = document.querySelectorAll(".nav-btn");
+        buttons.forEach((btn) => btn.classList.remove("active"));
+        event.target.classList.add("active");
+      }
+
+      // Mostrar URL actual
+      document.getElementById("current-url").textContent = window.location.href;
+
+      // Smooth scrolling para navegación
+      document.querySelectorAll(".nav-btn").forEach((button) => {
+        button.addEventListener("click", function () {
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
